@@ -1,3 +1,6 @@
 Testing push to master.
 
 Cannot push to origin master; why?
+b33b876d78f7157f11644ef8c9a709947987abe2 refs/heads/main
+b33b876d78f7157f11644ef8c9a709947987abe2 refs/remotes/origin/HEAD
+b33b876d78f7157f11644ef8c9a709947987abe2 refs/remotes/origin/main
