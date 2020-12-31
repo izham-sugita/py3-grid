@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-import csv
+
 
 df_vert = pd.read_csv("./vert.csv")
 
@@ -36,7 +36,77 @@ for i in range(imax):
             index +=1
 
 
+#maximum vertex count
+vert_max = index;
+
 new_df = pd.DataFrame(new_array, columns=['x','y','z'])
 print()
+print(vert_max)
 print(new_df)
 new_df.to_csv("./sample.csv", index=False)
+print()
+
+print("Creating connectivity for each surface")
+
+'''
+for i in range(imax):
+    for j in range(jmax):
+        for k in range(kmax):
+            ii = (i*jmax + j)*kmax + k
+            print(new_array[ii][:])
+'''
+
+ispace = 0
+
+#for centroid coordinates
+xc = 0.0
+yc = 0.0
+zc = 0.0
+for i in range(imax):
+    for j in range(jmax):
+        for k in range(kmax):
+            ii = (i*jmax + j)*kmax + k
+            ispace +=1
+            print(ii, xg[i][j][k], yg[i][j][k], zg[i][j][k])
+            xc +=xg[i][j][k]
+            yc +=yg[i][j][k]
+            zc +=zg[i][j][k]
+            if ispace == 4: #to create space, calculate centroid
+                ispace = 0
+                xc = 0.25*xc
+                yc = 0.25*yc
+                zc = 0.25*zc
+                print("Centroid coordinates: %f, %f, %f"%(xc,yc,zc))
+                #reset xc,yc,zc
+                xc = 0.0
+                yc = 0.0
+                zc = 0.0
+                print()
+
+'''                
+print()
+ispace = 0
+for j in range(jmax):
+    for k in range(kmax):
+        for i in range(imax):
+            ii = (i*jmax + j)*kmax + k
+            ispace +=1
+            print(ii, xg[i][j][k], yg[i][j][k], zg[i][j][k])
+            if ispace == 4: #to create space
+                ispace = 0
+                print() #reset the spacing
+            
+print()
+ispace = 0
+for k in range(kmax):
+    for i in range(imax):
+        for j in range(jmax):
+            ii = (i*jmax + j)*kmax + k
+            ispace +=1
+            print(ii, xg[i][j][k], yg[i][j][k], zg[i][j][k])
+            if ispace == 4: #to reset the count
+                ispace = 0
+                print()
+'''
+
+print("Program ends.")
