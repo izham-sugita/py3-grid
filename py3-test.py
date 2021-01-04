@@ -78,17 +78,23 @@ xc = 0.0
 yc = 0.0
 zc = 0.0
 isurface = 0
+
+x_vertex = np.ndarray((2,4,3))
+
 #focus on i-index; xi-axis
 print("xi-axis surface")
 for i in range(imax):
     for j in range(jmax):
         for k in range(kmax):
             ii = (i*jmax + j)*kmax + k
-            ispace +=1
             print(ii, xg[i][j][k], yg[i][j][k], zg[i][j][k])
             xc +=xg[i][j][k]
             yc +=yg[i][j][k]
             zc +=zg[i][j][k]
+            x_vertex[isurface][ispace][0] = xg[i][j][k]
+            x_vertex[isurface][ispace][1] = yg[i][j][k]
+            x_vertex[isurface][ispace][2] = zg[i][j][k]
+            ispace +=1
             if ispace == 4: #to create space, calculate centroid
                 ispace = 0
                 xc = 0.25*xc
@@ -105,7 +111,15 @@ for i in range(imax):
                 print(isurface, xscen[isurface][:])
                 isurface +=1
                 print()
-                
+
+#checking for xsurface vector
+print(x_vertex)
+print()
+
+#calculate cross product
+
+
+
 print()
 ispace = 0
 isurface = 0
