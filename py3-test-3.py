@@ -38,7 +38,7 @@ new_df = pd.DataFrame(new_array, columns=['x','y','z'])
 #print()
 #print(vert_max)
 #print(new_df)
-new_df.to_csv("./sample.csv", index=False)
+#new_df.to_csv("./sample.csv", index=False)
 #print()
 
 print("Creating connectivity for each surface")
@@ -47,14 +47,38 @@ print("Creating connectivity for each surface")
 imax = 2
 jmax = 2
 kmax = 2
-for i in range(imax):
-    for j in range(jmax):
+isurface = 0
+ispace = 0
+xc = 0.0
+yc = 0.0
+zc = 0.0
+isc = np.ndarray((2,3)) #i=0,1
+isvertex = np.ndarray((2,4,3)) #i=0,1
+for i in [0,imax-1]:
+    for j in [0,jmax-1]:
         ii = 0+j
         jj = (jmax-1)-j
-        step = (1-j) - (0+j)
-        for k in range(ii,jj+step,step):
-            print(i,j,k)
+        for k in [ii,jj]:
+            iii = (i*jmax + j)*kmax + k
+            if i == 0:
+                print(i,j,k, iii)
+                isvertex[i][ispace][0] = xg[i][j][k]
+                isvertex[i][ispace][1] = yg[i][j][k]
+                isvertex[i][ispace][2] = zg[i][j][k]
+                
+            else:
+                print(i,k,j, iii)
+                isvertex[i][ispace][0] = xg[i][k][j]
+                isvertex[i][ispace][1] = yg[i][k][j]
+                isvertex[i][ispace][2] = zg[i][k][j]
 
+            ispace +=1
+            if ispace == 4:
+                print()
+                ispace = 0
+
+
+print(isvertex)
 
 ispace = 0
 xscen = np.ndarray((2,3)) # 2 surfaces; x-,y-,z-values
@@ -74,10 +98,9 @@ for i in range(imax):
     for j in range(jmax):
         ii = 0+j
         jj = (jmax-1)-j
-        #produce clock-wise orientation
+        #produce counter clock-wise orientation
         for k in [ii,jj]:
             iii = (i*jmax + j)*kmax + k
-            #print(i,j,k, ii)
             xc +=xg[i][j][k]
             yc +=yg[i][j][k]
             zc +=zg[i][j][k]
